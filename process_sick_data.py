@@ -2,16 +2,15 @@
 
 #import neccesary modules and packages
 from sick_tools import SickTools
-from file_managers import FileManagers
 
 #instantiate classes
-fm = FileManagers()
 st = SickTools()
 
 class ProcessSICKData:
     """class that gets the sick tools together to process the sick data"""
     def __init__(self):
         print("initialized")
+
 
     def process_sick_data(self, before, after, ESPG, out, remobilization = False):
         """method that processes a before, an after scan and a difference map (either difference 
