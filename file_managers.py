@@ -105,6 +105,28 @@ class FileManagers:
                 if "_autochthonous(MAS)_Scan002" in filepath:
                     filenames["autoc_massa_scan2"] = Path(filepath).as_posix()
 
+                if "_nowood" in filepath and ".tif" in filepath:
+                    filenames["nowood_sick .tif"] = Path(filepath).as_posix()
+
+                if "_wood.tif" in filepath:
+                    filenames["wood_sick .tif"] = Path(filepath).as_posix()
+
+                if "_woodmap.tif" in filepath:
+                    filenames["woodmap_sick .tif"] = Path(filepath).as_posix()
+
+                if "_remobilization.tif" in filepath:
+                    filenames["remobilization_sick .tif"] = Path(filepath).as_posix()
+                
+                if "_remobilizationmap.tif" in filepath:
+                    filenames["remobilizationmap_sick .tif"] = Path(filepath).as_posix()
+
+                if "_pre.tif" in filepath:
+                    filenames["pre_sick .tif"] = Path(filepath).as_posix()
+
+                if "_post.tif" in filepath:
+                    filenames["post_sick .tif"] = Path(filepath).as_posix()
+
+
         pprint(filenames)
 
         return filenames

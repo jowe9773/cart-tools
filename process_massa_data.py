@@ -1,5 +1,6 @@
 #process_massa_data.py
-"""script that puts the massa tools together to create a function that actually processes the massa data"""
+"""script that puts the massa tools together to create 
+a function that actually processes the massa data"""
 
 #import neccesary packages and modules
 import os
@@ -21,14 +22,16 @@ class ProcessMassaData:
 
         #find path to the massa filename
         path_to = os.path.dirname(massa_file)
-        basename = os.path.basename(massa_file).split("(")[:-1][0]
+        basename = os.path.basename(massa_file).split("000")[:-1][0]
 
         #load massa files with the same basename as the input massa file
         massa = gpd.GeoDataFrame()
         print(massa)
+
         for subdir, _, files in os.walk(path_to):
             for file in files:
                 if basename in file:
+                    print(file)
                     data = mt.load_massa_file(subdir + "/" + file, epsg)
                     massa = pd.concat([massa, data])
 

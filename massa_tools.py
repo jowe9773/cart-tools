@@ -16,6 +16,9 @@ class MassaTools:
     def load_massa_file(self, filepath, epsg):
         """take massa file and turn it into a geopandas dataframe"""
 
+        #print filepath
+        print(filepath)
+
         # Load the CSV file into a pandas DataFrame
         # Skip the first 28 rows and the line immediately after the header
         df = pd.read_csv(filepath, skiprows=29, header=0)
@@ -46,8 +49,18 @@ class MassaTools:
             coords = [(x,y) for x, y in zip(water_elev.geometry.x, water_elev.geometry.y)]
             floodplain_elevation = [val[0] for val in src.sample(coords)]
 
+
             # Append the raster values to the GeoDataFrame
             water_elev["fp_elev"] = floodplain_elevation
+
+            water_elev["Massa Target"] = water_elev["Massa Target"].replace("OutOfRange", -9999)
+            water_elev["Massa Target"] = water_elev["Massa Target"].astype(float)
+
+            print("Massa: ", water_elev["Massa Target"].dtype)
+            print("Massa: ", water_elev["Massa Target"])
+            print("fp: ", water_elev["fp_elev"].dtype)
+            print("fp: ", water_elev["fp_elev"])
+
 
         #differene the floodplain and water elevations to find the water depths
         water_elev["water_depth"] = water_elev["Massa Target"] - water_elev["fp_elev"] + offset
@@ -61,7 +74,6 @@ class MassaTools:
         polygons = gpd.read_file(shp)
 
         # Select the polygons based on an attribute value
-        # Replace 'attribute_name' and 'desired_value' with the actual attribute name and value
         selected_polygons = polygons[polygons['id'] == polygon]
 
         # Combine the geometries of the selected polygons into a single geometry
