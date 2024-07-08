@@ -2,6 +2,9 @@
 """module containing methods for managing files"""
 
 #import necessary packages
+import os
+from pprint import pprint
+from pathlib import Path
 import tkinter as tk
 from tkinter import filedialog
 
@@ -40,3 +43,68 @@ class FileManagers:
         filename = filedialog.askopenfilename(title = purpose)
 
         return filename
+
+    def parse_directory(self, directory):
+        filenames = {}
+
+        for subdir, _, files in os.walk(directory):
+            for file in files:
+                filepath = os.path.join(subdir, file)
+
+                if "_nowood" in filepath and ".DAT" in filepath:
+                    filenames["nowood_sick .DAT"] = Path(filepath).as_posix()
+
+                if "_nowood" in filepath and ".XML" in filepath:
+                    filenames["nowood_sick .XML"] = Path(filepath).as_posix()
+
+                if "_wood" in filepath and ".DAT" in filepath:
+                    filenames["wood_sick .DAT"] = Path(filepath).as_posix()
+
+                if "_wood" in filepath and ".XML" in filepath:
+                    filenames["wood_sick .XML"] = Path(filepath).as_posix()
+
+                if "_remobilization" in filepath and ".DAT" in filepath:
+                    filenames["remobilization_sick .DAT"] = Path(filepath).as_posix()
+
+                if "_remobilization" in filepath and ".XML" in filepath:
+                    filenames["remobilization_sick .XML"] = Path(filepath).as_posix()
+
+                if "_pre" in filepath and ".DAT" in filepath:
+                    filenames["pre_sick .DAT"] = Path(filepath).as_posix()
+
+                if "_pre" in filepath and ".XML" in filepath:
+                    filenames["pre_sick .XML"] = Path(filepath).as_posix()
+
+                if "_post" in filepath and ".DAT" in filepath:
+                    filenames["post_sick .DAT"] = Path(filepath).as_posix()
+
+                if "_post" in filepath and ".XML" in filepath:
+                    filenames["post_sick .XML"] = Path(filepath).as_posix()
+
+                if "_nowood(MAS)_Scan0001" in filepath:
+                    filenames["nowood_massa_scan1"] = Path(filepath).as_posix()
+
+                if "_nowood(MAS)_Scan0002" in filepath:
+                    filenames["nowood_massa_scan2"] = Path(filepath).as_posix()
+
+                if "_wood(MAS)_Scan0001" in filepath:
+                    filenames["wood_massa_scan1"] = Path(filepath).as_posix()
+
+                if "_wood(MAS)_Scan0002" in filepath:
+                    filenames["wood_massa_scan2"] = Path(filepath).as_posix()
+
+                if "_remobilization(MAS)_Scan0001" in filepath:
+                    filenames["remobilization_massa_scan1"] = Path(filepath).as_posix()
+
+                if "_remobilization(MAS)_Scan0002" in filepath:
+                    filenames["remobilization_massa_scan2"] = Path(filepath).as_posix()
+
+                if "_autochthonous(MAS)_Scan001" in filepath:
+                    filenames["autoc_massa_scan1"] = Path(filepath).as_posix()
+
+                if "_autochthonous(MAS)_Scan002" in filepath:
+                    filenames["autoc_massa_scan2"] = Path(filepath).as_posix()
+
+        pprint(filenames)
+
+        return filenames
