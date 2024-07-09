@@ -99,10 +99,10 @@ class FileManagers:
                 if "_remobilization(MAS)_Scan0002" in filepath:
                     filenames["remobilization_massa_scan2"] = Path(filepath).as_posix()
 
-                if "_autochthonous(MAS)_Scan001" in filepath:
+                if "_autocthonous(MAS)_Scan0001" in filepath:
                     filenames["autoc_massa_scan1"] = Path(filepath).as_posix()
 
-                if "_autochthonous(MAS)_Scan002" in filepath:
+                if "_autocthonous(MAS)_Scan0002" in filepath:
                     filenames["autoc_massa_scan2"] = Path(filepath).as_posix()
 
                 if "_nowood" in filepath and ".tif" in filepath:
