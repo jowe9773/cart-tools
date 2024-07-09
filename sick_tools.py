@@ -53,6 +53,8 @@ class SickTools:
 
         topo = data.reshape([int(len(data)/width),width])
 
+        topo = topo[::-1, :]
+
         print(f'Number of Datapoints: {topo.flatten().shape}')
 
         return topo, xmin, xmax, ymin, ymax

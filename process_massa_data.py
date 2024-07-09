@@ -26,7 +26,6 @@ class ProcessMassaData:
 
         #load massa files with the same basename as the input massa file
         massa = gpd.GeoDataFrame()
-        print(massa)
 
         for subdir, _, files in os.walk(path_to):
             for file in files:

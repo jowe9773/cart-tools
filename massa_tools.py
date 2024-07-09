@@ -16,7 +16,7 @@ class MassaTools:
     def load_massa_file(self, filepath, epsg):
         """take massa file and turn it into a geopandas dataframe"""
 
-        #print filepath
+        #print filepath 
         print(filepath)
 
         # Load the CSV file into a pandas DataFrame
@@ -25,6 +25,8 @@ class MassaTools:
 
         # Skip the line immediately after the header by reloading the file and skipping necessary lines
         df = pd.read_csv(filepath, skiprows=list(range(28)) + [29])
+
+        df["Y"] = df["Y"] * (-1)
 
         # Assuming your CSV has 'latitude' and 'longitude' columns
         # Create a 'geometry' column using the 'longitude' and 'latitude' columns
@@ -55,12 +57,6 @@ class MassaTools:
 
             water_elev["Massa Target"] = water_elev["Massa Target"].replace("OutOfRange", -9999)
             water_elev["Massa Target"] = water_elev["Massa Target"].astype(float)
-
-            print("Massa: ", water_elev["Massa Target"].dtype)
-            print("Massa: ", water_elev["Massa Target"])
-            print("fp: ", water_elev["fp_elev"].dtype)
-            print("fp: ", water_elev["fp_elev"])
-
 
         #differene the floodplain and water elevations to find the water depths
         water_elev["water_depth"] = water_elev["Massa Target"] - water_elev["fp_elev"] + offset
