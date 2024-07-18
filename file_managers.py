@@ -73,87 +73,94 @@ class FileManagers:
     def sort_files(self, file_list):
         filenames = {}
 
-        for i, filepath in enumerate(file_list):
+        for i, file in enumerate(file_list):
+
+            #split into filepath and filename
+            filepath = file.rsplit("/", 1)[0]
+            filename = file.rsplit("/", 1)[1]
+
+            print("Filepath: ", filepath)
+            print("Filename: ", filename)
 
             #SICK FILES
-            if "_nowood" in filepath and ".DAT" in filepath and "Processed" in filepath:
-                filenames["nowood_sick .DAT"] = Path(filepath).as_posix()
+            if "_nowood" in filename and ".DAT" in filename and "Processed" in filename:
+                filenames["nowood_sick .DAT"] = Path(file).as_posix()
 
-            if "_nowood" in filepath and ".XML" in filepath and "Processed" in filepath:
-                filenames["nowood_sick .XML"] = Path(filepath).as_posix()
+            if "_nowood" in filename and ".XML" in filename and "Processed" in filename:
+                filenames["nowood_sick .XML"] = Path(file).as_posix()
 
-            if "_wood" in filepath and ".DAT" in filepath and "Processed" in filepath:
-                filenames["wood_sick .DAT"] = Path(filepath).as_posix()
+            if "_wood" in filename and ".DAT" in filename and "Processed" in filename:
+                filenames["wood_sick .DAT"] = Path(file).as_posix()
 
-            if "_wood" in filepath and ".XML" in filepath and "Processed" in filepath:
-                filenames["wood_sick .XML"] = Path(filepath).as_posix()
+            if "_wood" in filename and ".XML" in filename and "Processed" in filename:
+                filenames["wood_sick .XML"] = Path(file).as_posix()
 
-            if "_remobilization" in filepath and ".DAT" in filepath and "Processed" in filepath:
-                filenames["remobilization_sick .DAT"] = Path(filepath).as_posix()
+            if "_remobilization" in filename and ".DAT" in filename and "Processed" in filename:
+                filenames["remobilization_sick .DAT"] = Path(file).as_posix()
 
-            if "_remobilization" in filepath and ".XML" in filepath and "Processed" in filepath:
-                filenames["remobilization_sick .XML"] = Path(filepath).as_posix()
+            if "_remobilization" in filename and ".XML" in filename and "Processed" in filename:
+                filenames["remobilization_sick .XML"] = Path(file).as_posix()
 
-            if "_pre" in filepath and ".DAT" in filepath and "Processed" in filepath:
-                filenames["pre_sick .DAT"] = Path(filepath).as_posix()
+            if "_pre" in filename and ".DAT" in filename and "Processed" in filename:
+                filenames["pre_sick .DAT"] = Path(file).as_posix()
 
-            if "_pre" in filepath and ".XML" in filepath and "Processed" in filepath:
-                filenames["pre_sick .XML"] = Path(filepath).as_posix()
+            if "_pre" in filename and ".XML" in filename and "Processed" in filename:
+                filenames["pre_sick .XML"] = Path(file).as_posix()
 
-            if "_post" in filepath and ".DAT" in filepath and "Processed" in filepath:
-                filenames["post_sick .DAT"] = Path(filepath).as_posix()
+            if "_post" in filename and ".DAT" in filename and "Processed" in filename:
+                filenames["post_sick .DAT"] = Path(file).as_posix()
 
-            if "_post" in filepath and ".XML" in filepath and "Processed" in filepath:
-                filenames["post_sick .XML"] = Path(filepath).as_posix()
+            if "_post" in filename and ".XML" in filename and "Processed" in filename:
+                filenames["post_sick .XML"] = Path(file).as_posix()
 
 
             #MASSA SCANS
-            if "_nowood(MAS)_Scan00" in filepath and "nowood_massa_scan1" not in filenames:
-                filenames["nowood_massa_scan1"] = Path(filepath).as_posix()
+            if "_nowood(MAS)_Scan00" in filename and "nowood_massa_scan1" not in filenames:
+                filenames["nowood_massa_scan1"] = Path(file).as_posix()
 
-            if "_nowood(MAS)_Scan00" in filepath and "nowood_massa_scan1" in filenames:
-                filenames["nowood_massa_scan2"] = Path(filepath).as_posix()
+            if "_nowood(MAS)_Scan00" in filename and "nowood_massa_scan1" in filenames:
+                filenames["nowood_massa_scan2"] = Path(file).as_posix()
 
-            if "_wood(MAS)_Scan00" in filepath and "wood_massa_scan1" not in filenames:
-                filenames["wood_massa_scan1"] = Path(filepath).as_posix()
+            if "_wood(MAS)_Scan00" in filename and "wood_massa_scan1" not in filenames:
+                filenames["wood_massa_scan1"] = Path(file).as_posix()
 
-            if "_wood(MAS)_Scan00" in filepath and "wood_massa_scan1" in filenames:
-                filenames["wood_massa_scan2"] = Path(filepath).as_posix()
+            if "_wood(MAS)_Scan00" in filename and "wood_massa_scan1" in filenames:
+                filenames["wood_massa_scan2"] = Path(file).as_posix()
 
-            if "_remobilization(MAS)_Scan00" in filepath and "remobilization_massa_scan1" not in filenames:
-                filenames["remobilization_massa_scan1"] = Path(filepath).as_posix()
+            if "_remobilization(MAS)_Scan00" in filename and "remobilization_massa_scan1" not in filenames:
+                filenames["remobilization_massa_scan1"] = Path(file).as_posix()
 
-            if "_remobilization(MAS)_Scan00" in filepath and "remobilization_massa_scan1" in filenames:
-                filenames["remobilization_massa_scan2"] = Path(filepath).as_posix()
+            if "_remobilization(MAS)_Scan00" in filename and "remobilization_massa_scan1" in filenames:
+                filenames["remobilization_massa_scan2"] = Path(file).as_posix()
 
-            if "_autochthonous(MAS)_Scan00" in filepath and "autoc_massa_scan1" not in filenames:
-                filenames["autoc_massa_scan1"] = Path(filepath).as_posix()
+            if "_autochthonous(MAS)_Scan00" in filename and "autoc_massa_scan1" not in filenames:
+                filenames["autoc_massa_scan1"] = Path(file).as_posix()
 
-            if "_autohcthonous(MAS)_Scan00" in filepath and "autoc_massa_scan1" in filenames:
-                filenames["autoc_massa_scan2"] = Path(filepath).as_posix()
+            if "_autohcthonous(MAS)_Scan00" in filename and "autoc_massa_scan1" in filenames:
+                filenames["autoc_massa_scan2"] = Path(file).as_posix()
 
 
             #OUTPUTS
-            if "_nowood" in filepath and ".tif" in filepath:
-                filenames["nowood_sick .tif"] = Path(filepath).as_posix()
+            if "_nowood" in filename and ".tif" in filename:
+                filenames["nowood_sick .tif"] = Path(file).as_posix()
 
-            if "_wood.tif" in filepath:
-                filenames["wood_sick .tif"] = Path(filepath).as_posix()
+            if "_wood.tif" in filename:
+                filenames["wood_sick .tif"] = Path(file).as_posix()
 
-            if "_woodmap.tif" in filepath:
-                filenames["woodmap_sick .tif"] = Path(filepath).as_posix()
+            if "_woodmap.tif" in filename:
+                filenames["woodmap_sick .tif"] = Path(file).as_posix()
 
-            if "_remobilization.tif" in filepath:
-                filenames["remobilization_sick .tif"] = Path(filepath).as_posix()
+            if "_remobilization.tif" in filename:
+                filenames["remobilization_sick .tif"] = Path(file).as_posix()
             
-            if "_remobilizationmap.tif" in filepath:
-                filenames["remobilizationmap_sick .tif"] = Path(filepath).as_posix()
+            if "_remobilizationmap.tif" in filename:
+                filenames["remobilizationmap_sick .tif"] = Path(file).as_posix()
 
-            if "_pre.tif" in filepath:
-                filenames["pre_sick .tif"] = Path(filepath).as_posix()
+            if "_pre.tif" in filename:
+                filenames["pre_sick .tif"] = Path(file).as_posix()
 
-            if "_post.tif" in filepath:
-                filenames["post_sick .tif"] = Path(filepath).as_posix()
+            if "_post.tif" in filename:
+                filenames["post_sick .tif"] = Path(file).as_posix()
 
 
         pprint(filenames)
