@@ -161,7 +161,4 @@ class FileManagers:
             if "_post.tif" in filename:
                 filenames["post_sick .tif"] = output_file
 
-
-        pprint(filenames)
-
         return filenames
