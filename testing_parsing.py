@@ -2,6 +2,7 @@
 
 import os
 import re
+from pprint import pprint
 from collections import defaultdict
 from file_managers import FileManagers
 fm = FileManagers()
@@ -28,4 +29,6 @@ for subdir, _, files in os.walk(root_dir):
 
 for key in grouped_files:
     print(key)
-    fm.parse_directory(grouped_files[key])
+    pprint(grouped_files[key])
+    fm.sort_files(grouped_files[key])
+    
