@@ -88,7 +88,7 @@ for key in grouped_files:
             print("Missing experiment notes file")
 
         #now based on the flood type lets check if the neccesary files are there
-        if experimental_setup[0] is 'H':
+        if experimental_setup[0] == 'H':
             if "nowood_sick .DAT" not in filenames:
                 print("Missing nowood_sick.dat")
             
@@ -100,8 +100,8 @@ for key in grouped_files:
             
             if "wood_sick .XML" not in filenames:
                 print("Missing wood_sick.xml")
-            
-            
+
+
             if "nowood_massa_scan1" not in filenames:
                 print("Missing both nowood massa scans")
 
@@ -114,7 +114,7 @@ for key in grouped_files:
             if "wood_massa_scan2" not in filenames:
                 print("Missing second wood massa scan")
 
-        if experimental_setup[0] is 'L':
+        if experimental_setup[0] == 'L':
             if "nowood_sick .DAT" not in filenames:
                 print("Missing nowood_sick.dat")
             
@@ -152,7 +152,7 @@ for key in grouped_files:
             if "remobilization_massa_scan2" not in filenames:
                 print("Missing second remobilization massa scan")
 
-        if experimental_setup[0] is 'A':
+        if experimental_setup[0] == 'A':
             if "pre_sick .DAT" not in filenames:
                 print("Missing pre_sick.dat")
             
