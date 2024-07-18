@@ -59,6 +59,9 @@ class FileManagers:
         # Dictionary to store grouped files
         grouped_files = defaultdict(list)
 
+        #variable to store summary file
+        summary = None
+
         # Walk through the directory and its subdirectories
         for subdir, _, files in os.walk(root_dir):
             for file in files:
@@ -69,6 +72,13 @@ class FileManagers:
                     key = f"{date}_exp{experiment_number}"
                     full_path = os.path.join(subdir, file)
                     grouped_files[key].append(full_path)
+
+                if "summary" in file:
+                    summary = os.path.join(subdir, file)
+                    print("Summary file present")
+                    print(summary)
+                    
+                    
 
     def sort_files(self, file_list):
         filenames = {}
@@ -160,5 +170,24 @@ class FileManagers:
 
             if "_post.tif" in filename:
                 filenames["post_sick .tif"] = output_file
+
+            #OTHER FILES
+            if "summary" in filename:
+                filenames["summary"] = output_file
+
+            if "_ocs" in filename:
+                filenames["ocs"] = output_file
+
+            if "_flowlog" in filename:
+                filenames["flowlog"] = output_file
+
+            if "_fieldnotes" in filename:
+                filenames["counts"] = output_file
+
+            if "_experiment_notes" in filename: 
+                filenames["notes"] = output_file
+            
+            if "_densitydata" in filename:
+                filenames["density"] = output_file
 
         return filenames
