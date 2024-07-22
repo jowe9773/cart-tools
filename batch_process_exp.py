@@ -28,10 +28,8 @@ for item in os.listdir(main_directory):
         subdirs.append(item_path)
 
 #iterate through subdirectories (each of which is for one experiment)
-for i in range(len(subdirs)):
+for i, subdir in enumerate(subdirs):
     out_dir = subdirs[i] + "/outputs"
     os.makedirs(out_dir, exist_ok=True)
 
     pe.process_exp(subdirs[i], out_dir,flume_regions, epsg, offset)
-
-    
