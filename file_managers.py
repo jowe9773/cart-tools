@@ -5,12 +5,10 @@
 import os
 import re
 from collections import defaultdict
-import pandas as pd
-from pprint import pprint
-from pathlib import Path
 import tkinter as tk
 from tkinter import filedialog
-
+from pathlib import Path
+import pandas as pd
 
 
 class FileManagers:
@@ -46,7 +44,7 @@ class FileManagers:
         filename = filedialog.askopenfilename(title = purpose)
 
         return filename
-    
+
 
     def parse_directory(self, root_dir):
         """Goes through all files in a directory and all subdirectories and groups them by experiment name. 
@@ -78,16 +76,14 @@ class FileManagers:
                     summary = os.path.join(subdir, file)
                     print("Summary file present")
                     print(summary)
-        
+
         return summary, grouped_files
-                    
-                    
 
     def sort_files(self, file_list):
         filenames = {}
 
         for i, file in enumerate(file_list):
-            
+
             output_file = Path(file).as_posix()
 
             #split into filepath and filename
