@@ -5,6 +5,7 @@
 import os
 import re
 from collections import defaultdict
+import pandas as pd
 from pprint import pprint
 from pathlib import Path
 import tkinter as tk
@@ -77,6 +78,8 @@ class FileManagers:
                     summary = os.path.join(subdir, file)
                     print("Summary file present")
                     print(summary)
+        
+        return summary, grouped_files
                     
                     
 
@@ -191,3 +194,145 @@ class FileManagers:
                 filenames["density"] = output_file
 
         return filenames
+
+    def read_exp_summary(self, summary_fn):
+         #read summary csv into pandas df
+        summary_df = pd.read_excel(summary_fn)
+        print(summary_df)
+
+        #make a dictionary that contains keys(experiment names) and values (list of floodtype, congestion, forest stand)
+        experiment_deets = {}
+
+        for index, row in summary_df.iterrows():
+            if index >=2:
+                #grad experiment name
+                experiment = row["Experiment Name"]
+
+                #grab flood type
+                flood_type = row["Flood type"]
+
+                #grab transport regime
+                congestion = row["Congestion"]
+
+                #grab flood magnitude
+                tree_spacing = row["Forest Stand Density"]
+
+                #create a list of these attributes and append it to the dictionary
+                experiment_deets[f"{experiment}"] = [flood_type, congestion, tree_spacing]
+
+        return experiment_deets
+    
+    def check_exp_for_files(self, key, experiment_deets, filenames):
+        if key in experiment_deets:
+            experimental_setup = experiment_deets[f"{key}"]
+            print(experimental_setup)
+
+            #check files that all experiments should have
+            if experimental_setup[0] != "x":
+                if "ocs" not in filenames:
+                    print("Missing ocean control file")
+
+                if "density" not in filenames:
+                    print("Missing density data file")
+
+                if "flowlog" not in filenames:
+                    print("Missing flow log data")
+
+                if "notes" not in filenames:
+                    print("Missing experiment notes file")
+
+            #now based on the flood type lets check if the neccesary files are there
+            if experimental_setup[0] == 'H':
+                if "counts" not in filenames:
+                    print("Missing field notes file")
+
+
+                if "nowood_sick .DAT" not in filenames:
+                    print("Missing nowood_sick.dat")
+                
+                if "nowood_sick .XML" not in filenames:
+                    print("Missing nowood_sick.xml")
+
+                if "wood_sick .DAT" not in filenames:
+                    print("Missing wood_sick.dat")
+                
+                if "wood_sick .XML" not in filenames:
+                    print("Missing wood_sick.xml")
+
+
+                if "nowood_massa_scan1" not in filenames:
+                    print("Missing both nowood massa scans")
+
+                if "nowood_massa_scan2" not in filenames:
+                    print("Missing second nowood massa scan")
+
+                if "wood_massa_scan1" not in filenames:
+                    print("Missing both wood massa scans")
+
+                if "wood_massa_scan2" not in filenames:
+                    print("Missing second wood massa scan")
+
+            if experimental_setup[0] == 'L':
+                if "counts" not in filenames:
+                    print("Missing field notes file")
+
+                    
+                if "nowood_sick .DAT" not in filenames:
+                    print("Missing nowood_sick.dat")
+                
+                if "nowood_sick .XML" not in filenames:
+                    print("Missing nowood_sick.xml")
+
+                if "wood_sick .DAT" not in filenames:
+                    print("Missing wood_sick.dat")
+                
+                if "wood_sick .XML" not in filenames:
+                    print("Missing wood_sick.xml")
+
+                if "remobilization_sick .DAT" not in filenames:
+                    print("Missing remobilization_sick.DAT")
+
+                if "remobilization_sick .XML" not in filenames:
+                    print("Missing remobilization_sick.XML")
+
+                
+                if "nowood_massa_scan1" not in filenames:
+                    print("Missing both nowood massa scans")
+
+                if "nowood_massa_scan2" not in filenames:
+                    print("Missing second nowood massa scan")
+
+                if "wood_massa_scan1" not in filenames:
+                    print("Missing both wood massa scans")
+
+                if "wood_massa_scan2" not in filenames:
+                    print("Missing second wood massa scan")
+
+                if "remobilization_massa_scan1" not in filenames:
+                    print("Missing both remobilization massa scans")
+
+                if "remobilization_massa_scan2" not in filenames:
+                    print("Missing second remobilization massa scan")
+
+            if experimental_setup[0] == 'A':
+                if "pre_sick .DAT" not in filenames:
+                    print("Missing pre_sick.dat")
+                
+                if "pre_sick .XML" not in filenames:
+                    print("Missing pre_sick.xml")
+
+                if "post_sick .DAT" not in filenames:
+                    print("Missing post_sick.dat")
+                
+                if "post_sick .XML" not in filenames:
+                    print("Missing post_sick.xml")
+
+                
+                if "autoc_massa_scan1" not in filenames:
+                    print("Missing first autoc massa scan")
+
+                if "autoc_massa_scan2" not in filenames:
+                    print("Missing second autoc massa scan")
+
+        else: 
+            print("No experiment details in summary")
