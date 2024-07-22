@@ -3,8 +3,8 @@
 import os
 import re
 import pandas as pd
-from pprint import pprint
 from pathlib import Path
+from pprint import pprint
 from collections import defaultdict
 from file_managers import FileManagers
 fm = FileManagers()
@@ -17,6 +17,7 @@ pattern = re.compile(r'(\d{8})_exp(\d+)_')
 
 # Dictionary to store grouped files
 grouped_files = defaultdict(list)
+summary = None
 
 # Walk through the directory and its subdirectories
 for subdir, _, files in os.walk(root_dir):
@@ -37,7 +38,7 @@ for subdir, _, files in os.walk(root_dir):
 if summary is not None:
     #read summary csv into pandas df
     summary_df = pd.read_excel(summary)
-    #print(summary_df)
+    print(summary_df)
 
     #make a dictionary that contains keys(experiment names) and values (list of floodtype, congestion, forest stand)
     experiment_deets = {}
@@ -69,26 +70,28 @@ for key in grouped_files:
     #lets check to see if the neccesary files are present
     if key in experiment_deets:
         experimental_setup = experiment_deets[f"{key}"]
-        #print(experimental_setup)
+        print(experimental_setup)
 
         #check files that all experiments should have
-        if "ocs" not in filenames:
-            print("Missing ocean control file")
+        if experimental_setup[0] != "x":
+            if "ocs" not in filenames:
+                print("Missing ocean control file")
 
-        if "counts" not in filenames:
-            print("Missing field notes file")
+            if "density" not in filenames:
+                print("Missing density data file")
 
-        if "density" not in filenames:
-            print("Missing density data file")
+            if "flowlog" not in filenames:
+                print("Missing flow log data")
 
-        if "flowlog" not in filenames:
-            print("Missing flow log data")
-
-        if "notes" not in filenames:
-            print("Missing experiment notes file")
+            if "notes" not in filenames:
+                print("Missing experiment notes file")
 
         #now based on the flood type lets check if the neccesary files are there
         if experimental_setup[0] == 'H':
+            if "counts" not in filenames:
+                print("Missing field notes file")
+
+
             if "nowood_sick .DAT" not in filenames:
                 print("Missing nowood_sick.dat")
             
@@ -115,6 +118,10 @@ for key in grouped_files:
                 print("Missing second wood massa scan")
 
         if experimental_setup[0] == 'L':
+            if "counts" not in filenames:
+                print("Missing field notes file")
+
+                
             if "nowood_sick .DAT" not in filenames:
                 print("Missing nowood_sick.dat")
             
@@ -167,10 +174,10 @@ for key in grouped_files:
 
             
             if "autoc_massa_scan1" not in filenames:
-                print("Missing both autoc massa scans")
+                print("Missing first autoc massa scan")
 
             if "autoc_massa_scan2" not in filenames:
                 print("Missing second autoc massa scan")
-                
+
     else: 
         print("No experiment details in summary")

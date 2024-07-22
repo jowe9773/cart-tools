@@ -145,7 +145,7 @@ class FileManagers:
             if "_autochthonous(MAS)_Scan00" in filename and "autoc_massa_scan1" not in filenames:
                 filenames["autoc_massa_scan1"] = output_file
 
-            if "_autohcthonous(MAS)_Scan00" in filename and "autoc_massa_scan1" in filenames:
+            if "_autochthonous(MAS)_Scan00" in filename and "autoc_massa_scan1" in filenames:
                 filenames["autoc_massa_scan2"] = output_file
 
 
