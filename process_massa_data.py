@@ -6,6 +6,7 @@ a function that actually processes the massa data"""
 import os
 import pandas as pd
 import geopandas as gpd
+from pprint import pprint
 from massa_tools import MassaTools
 
 
@@ -39,9 +40,13 @@ class ProcessMassaData:
 
         #extract points on the floodplain
         fp_data = mt.extract_aoi(water_depth, boundary_shp, polygon = 0)
+        print("Floodplain Data")
+        pprint(fp_data)
 
         #extract points in the channel
         ch_data = mt.extract_aoi(water_depth, boundary_shp, polygon = 1)
+        print("Channel Data")
+        pprint(fp_data)
 
         #make filenames for the channel and fp datasets
         out_name = massa_file.split("/")[-1].split("(")[0]
