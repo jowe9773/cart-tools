@@ -59,7 +59,7 @@ for key in grouped_files:
     filenames = fm.sort_files(grouped_files[key])
 
     #process sick and massa data
-    pe.process_exp(filenames, out_dir, flume_regions, epsg, offset)
+    pe.process_exp(key, filenames, out_dir, flume_regions, epsg, offset)
 
     #list the flood type for the experiment
     flood_type = experiment_deets[key][0]

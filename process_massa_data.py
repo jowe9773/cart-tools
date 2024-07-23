@@ -35,6 +35,7 @@ class ProcessMassaData:
                     data = mt.load_massa_file(subdir + "/" + file, epsg)
                     massa = pd.concat([massa, data])
 
+
         #find water depths
         water_depth = mt.get_water_depth(massa, fp_geotiff, offset)
 
@@ -57,11 +58,3 @@ class ProcessMassaData:
         #save data to shp files
         fp_data.to_file(fp_out)
         ch_data.to_file(ch_out)
-
-        #take the average flow depth on the floodplain and in the channel
-        print(fp_data)
-
-        print(ch_data)
-
-
-

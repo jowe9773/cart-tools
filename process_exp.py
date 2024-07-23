@@ -17,7 +17,7 @@ class ProcessExperiment:
     def __init__(self):
         print("initialized")
 
-    def process_exp(self, filenames, out_dir, flume_regions, epsg, offset):
+    def process_exp(self, exp_name, filenames, out_dir, flume_regions, epsg, offset):
 
 
         #BASED ON WHICH FILES ARE AVAILABLE, SELECT A PROCESSING PATH
@@ -80,7 +80,11 @@ class ProcessExperiment:
             #process sick data
             psd.process_sick_data(filenames["nowood_sick .DAT"], filenames["wood_sick .DAT"], epsg, out_dir)
 
-            sick_files = fm.parse_directory(out_dir)
+            outputs = fm.parse_directory(out_dir)
+
+            sick_outputs = outputs[1]
+
+            sick_files = fm.sort_files(sick_outputs[f"{exp_name}"])
 
             #process massa data
             pmd.process_massa_data(filenames["nowood_massa_scan1"], sick_files["nowood_sick .tif"], flume_regions, epsg, out_dir, offset)
@@ -91,7 +95,11 @@ class ProcessExperiment:
             psd.process_sick_data(filenames["nowood_sick .DAT"], filenames["wood_sick .DAT"], epsg, out = out_dir)
             psd.process_sick_data(filenames["wood_sick .DAT"], filenames["remobilization_sick .DAT"], epsg, out = out_dir, remobilization=True)
 
-            sick_files = fm.parse_directory(out_dir)
+            outputs = fm.parse_directory(out_dir)
+
+            sick_outputs = outputs[1]
+
+            sick_files = fm.sort_files(sick_outputs[f"{exp_name}"])
 
             #process massa data
             pmd.process_massa_data(filenames["nowood_massa_scan1"], sick_files["nowood_sick .tif"], flume_regions, epsg, out_dir, offset)
@@ -104,7 +112,13 @@ class ProcessExperiment:
             #process sick data
             psd.process_sick_data(filenames["pre_sick .DAT"], filenames["post_sick .DAT"], epsg, out = out_dir)
 
-            sick_files = fm.parse_directory(out_dir)
+            outputs = fm.parse_directory(out_dir)
+
+            sick_outputs = outputs[1]
+
+            sick_files = fm.sort_files(sick_outputs[f"{exp_name}"])
 
             #process massa data
             pmd.process_massa_data(filenames["autoc_massa_scan1"], sick_files["post_sick .tif"], flume_regions, epsg, out_dir, offset)
+
+        

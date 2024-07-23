@@ -43,6 +43,9 @@ class MassaTools:
 
     def get_water_depth(self, water_elev, fp_elev, offset = 0):
         """take the loaded massa file (geodataframe) and add a column for floodplain elevation by extracting the nearest elevation point from a geotiff"""
+
+        print("Water Elev:")
+        print(water_elev)
         with rasterio.open(fp_elev) as src:
             # Ensure the CRS of the GeoTIFF and the GeoDataFrame match
             assert src.crs.to_string() == water_elev.crs.to_string(), "CRS mismatch between GeoTIFF and GeoDataFrame"
