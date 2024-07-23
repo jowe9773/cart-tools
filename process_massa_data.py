@@ -6,7 +6,6 @@ a function that actually processes the massa data"""
 import os
 import pandas as pd
 import geopandas as gpd
-from pprint import pprint
 from massa_tools import MassaTools
 
 
@@ -31,7 +30,6 @@ class ProcessMassaData:
         for subdir, _, files in os.walk(path_to):
             for file in files:
                 if basename in file:
-                    print(file)
                     data = mt.load_massa_file(subdir + "/" + file, epsg)
                     massa = pd.concat([massa, data])
 
@@ -41,13 +39,10 @@ class ProcessMassaData:
 
         #extract points on the floodplain
         fp_data = mt.extract_aoi(water_depth, boundary_shp, polygon = 0)
-        print("Floodplain Data")
-        pprint(fp_data)
 
         #extract points in the channel
         ch_data = mt.extract_aoi(water_depth, boundary_shp, polygon = 1)
-        print("Channel Data")
-        pprint(fp_data)
+
 
         #make filenames for the channel and fp datasets
         out_name = massa_file.split("/")[-1].split("(")[0]
@@ -58,3 +53,11 @@ class ProcessMassaData:
         #save data to shp files
         fp_data.to_file(fp_out)
         ch_data.to_file(ch_out)
+
+        avg_fp_elev = fp_data["water_depth"].mean()
+        median_fp_elev = fp_data["water_depth"].median()
+
+        avg_ch_elev = ch_data["water_depth"].mean()
+        median_ch_elev = ch_data["water_depth"].median()
+
+        return avg_fp_elev, median_fp_elev, avg_ch_elev, median_ch_elev

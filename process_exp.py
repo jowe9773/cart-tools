@@ -4,6 +4,7 @@
 
 #load neccesary packages and modules
 from file_managers import FileManagers
+import numpy as np
 from process_massa_data import ProcessMassaData
 from process_sick_data import ProcessSICKData
 
@@ -87,8 +88,14 @@ class ProcessExperiment:
             sick_files = fm.sort_files(sick_outputs[f"{exp_name}"])
 
             #process massa data
-            pmd.process_massa_data(filenames["nowood_massa_scan1"], sick_files["nowood_sick .tif"], flume_regions, epsg, out_dir, offset)
-            pmd.process_massa_data(filenames["wood_massa_scan1"], sick_files["wood_sick .tif"], flume_regions, epsg, out_dir, offset)
+            nowood_avg_fp_elev, nowood_median_fp_elev, nowood_avg_ch_elev, nowood_median_ch_elev = pmd.process_massa_data(filenames["nowood_massa_scan1"], sick_files["nowood_sick .tif"], flume_regions, epsg, out_dir, offset)
+            wood_avg_fp_elev, wood_median_fp_elev, wood_avg_ch_elev, wood_median_ch_elev = pmd.process_massa_data(filenames["wood_massa_scan1"], sick_files["wood_sick .tif"], flume_regions, epsg, out_dir, offset)
+
+            remobilization_avg_ch_elev = np.nan
+            remobilization_avg_fp_elev = np.nan
+            remobilization_median_ch_elev = np.nan
+            remobilization_median_fp_elev = np.nan
+
 
         if experiment_type is "low":
             #process sick data
@@ -102,11 +109,11 @@ class ProcessExperiment:
             sick_files = fm.sort_files(sick_outputs[f"{exp_name}"])
 
             #process massa data
-            pmd.process_massa_data(filenames["nowood_massa_scan1"], sick_files["nowood_sick .tif"], flume_regions, epsg, out_dir, offset)
+            nowood_avg_fp_elev, nowood_median_fp_elev, nowood_avg_ch_elev, nowood_median_ch_elev = pmd.process_massa_data(filenames["nowood_massa_scan1"], sick_files["nowood_sick .tif"], flume_regions, epsg, out_dir, offset)
 
-            pmd.process_massa_data(filenames["remobilization_massa_scan1"], sick_files["remobilization_sick .tif"], flume_regions, epsg, out_dir, offset)
+            remobilization_avg_fp_elev, remobilization_median_fp_elev, remobilization_avg_ch_elev, remobilization_median_ch_elev = pmd.process_massa_data(filenames["remobilization_massa_scan1"], sick_files["remobilization_sick .tif"], flume_regions, epsg, out_dir, offset)
 
-            pmd.process_massa_data(filenames["wood_massa_scan1"], sick_files["wood_sick .tif"], flume_regions, epsg, out_dir, offset)
+            wood_avg_fp_elev, wood_median_fp_elev, wood_avg_ch_elev, wood_median_ch_elev = pmd.process_massa_data(filenames["wood_massa_scan1"], sick_files["wood_sick .tif"], flume_regions, epsg, out_dir, offset)
 
         if experiment_type is "autochthonous":
             #process sick data
@@ -119,6 +126,8 @@ class ProcessExperiment:
             sick_files = fm.sort_files(sick_outputs[f"{exp_name}"])
 
             #process massa data
-            pmd.process_massa_data(filenames["autoc_massa_scan1"], sick_files["post_sick .tif"], flume_regions, epsg, out_dir, offset)
+            autoc_avg_fp_elev, autoc_median_fp_elev, autoc_avg_ch_elev, autoch_median_ch_elev = pmd.process_massa_data(filenames["autoc_massa_scan1"], sick_files["post_sick .tif"], flume_regions, epsg, out_dir, offset)
 
-        
+        outs = [nowood_avg_fp_elev, nowood_median_fp_elev, nowood_avg_ch_elev, nowood_median_ch_elev, wood_avg_fp_elev, wood_median_fp_elev, wood_avg_ch_elev, wood_median_ch_elev, remobilization_avg_fp_elev, remobilization_median_fp_elev, remobilization_avg_ch_elev, remobilization_median_ch_elev]
+    
+        return outs
