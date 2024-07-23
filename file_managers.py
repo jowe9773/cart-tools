@@ -4,6 +4,7 @@
 #import necessary packages
 import os
 import re
+import numpy as np
 from collections import defaultdict
 import tkinter as tk
 from tkinter import filedialog
@@ -15,7 +16,7 @@ class FileManagers:
     """Class contains methods for managing files"""
 
     def __init__(self):
-        print("initialized")
+        print("Initialized file managers")
 
     def load_dn(self, purpose):
         """this function opens a tkinter GUI for selecting a 
@@ -332,3 +333,110 @@ class FileManagers:
 
         else: 
             print("No experiment details in summary")
+
+    def extract_count_data(self, count_fn, flood_type):
+
+        summary_df = pd.read_excel(count_fn, sheet_name = "Summary")
+
+        #dropped counts
+        s_dropped = summary_df.iat[1,2]
+        i_dropped = summary_df.iat[1,3]
+        l_dropped = summary_df.iat[1,4]
+        all_dropped = summary_df.iat[1,5]
+
+        #floodplain in jam counts
+        s_fp_injam = summary_df.iat[3,2]
+        i_fp_injam = summary_df.iat[3,3]
+        l_fp_injam = summary_df.iat[3,4]
+        all_fp_injam = summary_df.iat[3,5]
+
+        #channel margin in jam counts
+        s_cm_injam = summary_df.iat[4,2]
+        i_cm_injam = summary_df.iat[4,3]
+        l_cm_injam = summary_df.iat[4,4]
+        all_cm_injam = summary_df.iat[4,5]
+
+        #in channel in jam counts
+        s_ic_injam = summary_df.iat[5,2]
+        i_ic_injam = summary_df.iat[5,3]
+        l_ic_injam = summary_df.iat[5,4]
+        all_ic_injam = summary_df.iat[5,5]
+
+        # total counts in jams by piece size
+        s_tot_injam = summary_df.iat[6,2]
+        i_tot_injam = summary_df.iat[6,3]
+        l_tot_injam = summary_df.iat[6,4]
+        all_injam = summary_df.iat[6,5]
+
+        #floodplain individual piece counts
+        s_fp_ind = summary_df.iat[8,2]
+        i_fp_ind = summary_df.iat[8,3]
+        l_fp_ind = summary_df.iat[8,4]
+        all_fp_ind = summary_df.iat[8,5]
+
+        #channel marginal individual piece counts
+        s_cm_ind = summary_df.iat[9,2]
+        i_cm_ind = summary_df.iat[9,3]
+        l_cm_ind = summary_df.iat[9,4]
+        all_cm_ind = summary_df.iat[9,5]
+
+        #in channel individual piece counts
+        s_ic_ind = summary_df.iat[10,2]
+        i_ic_ind = summary_df.iat[10,3]
+        l_ic_ind = summary_df.iat[10,4]
+        all_ic_ind = summary_df.iat[10,5]
+
+        #total counts of individual pieces by size
+        s_tot_ind = summary_df.iat[11,2]
+        i_tot_ind = summary_df.iat[11,3]
+        l_tot_ind = summary_df.iat[11,4]
+        all_ind = summary_df.iat[11,5]
+
+        #total number of pieces by location
+        all_fp = all_fp_ind + all_fp_injam
+        all_cm = all_cm_ind + all_cm_injam
+        all_ic = all_ic_ind + all_ic_injam
+
+        #total number of pieces in the flume at the end of the flood
+        if flood_type == "H":
+            #total number of pieces by size
+            all_s = s_tot_ind + s_tot_injam
+            all_i = i_tot_ind + i_tot_injam
+            all_l = l_tot_ind + l_tot_injam
+
+            all_pieces = all_s + all_i + all_l
+
+            remobilized_s = np.nan
+            remobilized_i = np.nan
+            remobilized_l = np.nan
+            remobilized_total = np.nan
+
+        if flood_type == "L":
+            remobilized_s = summary_df.iat[16,2]
+            remobilized_i = summary_df.iat[16,3]
+            remobilized_l = summary_df.iat[16,4]
+            remobilized_total = summary_df.iat[16,5]
+
+            #total number of pieces by size
+            all_s = s_tot_ind + s_tot_injam + remobilized_s
+            all_i = i_tot_ind + i_tot_injam + remobilized_i
+            all_l = l_tot_ind + l_tot_injam + remobilized_l
+
+            all_pieces = all_s + all_i + all_l
+
+        count_list = [
+            s_dropped, i_dropped, l_dropped, all_dropped,
+            s_fp_injam, i_fp_injam, l_fp_injam, all_fp_injam,
+            s_cm_injam, i_cm_injam, l_cm_injam, all_cm_injam,
+            s_ic_injam, i_ic_injam, l_ic_injam, all_ic_injam,
+            s_tot_injam, i_tot_injam, l_tot_injam, all_injam,
+            s_fp_ind, i_fp_ind, l_fp_ind, all_fp_ind,
+            s_cm_ind, i_cm_ind, l_cm_ind, all_cm_ind,
+            s_ic_ind, i_ic_ind, l_ic_ind, all_ic_ind,
+            s_tot_ind, i_tot_ind, l_tot_ind, all_ind,
+            all_s, all_i, all_l, all_pieces,
+            all_fp, all_cm, all_ic,
+            remobilized_s, remobilized_i, remobilized_l, remobilized_total
+            ]
+
+        return count_list

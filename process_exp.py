@@ -17,10 +17,8 @@ class ProcessExperiment:
     def __init__(self):
         print("initialized")
 
-    def process_exp(self, directory, out_dir, flume_regions, epsg, offset):
+    def process_exp(self, filenames, out_dir, flume_regions, epsg, offset):
 
-        #parse through these files and make a dictionary of filenames for the relevant files
-        filenames = fm.parse_directory(directory)
 
         #BASED ON WHICH FILES ARE AVAILABLE, SELECT A PROCESSING PATH
         experiment_type = None

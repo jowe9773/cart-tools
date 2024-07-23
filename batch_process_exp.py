@@ -7,7 +7,6 @@ from pathlib import Path
 from file_managers import FileManagers
 from process_exp import ProcessExperiment
 
-
 #instantiate:
 fm = FileManagers()
 pe = ProcessExperiment()
