@@ -16,9 +16,6 @@ class MassaTools:
     def load_massa_file(self, filepath, epsg):
         """take massa file and turn it into a geopandas dataframe"""
 
-        #print filepath 
-        print(filepath)
-
         # Load the CSV file into a pandas DataFrame
         # Skip the first 28 rows and the line immediately after the header
         df = pd.read_csv(filepath, skiprows=29, header=0)
@@ -43,6 +40,7 @@ class MassaTools:
 
     def get_water_depth(self, water_elev, fp_elev, offset = 0):
         """take the loaded massa file (geodataframe) and add a column for floodplain elevation by extracting the nearest elevation point from a geotiff"""
+
         with rasterio.open(fp_elev) as src:
             # Ensure the CRS of the GeoTIFF and the GeoDataFrame match
             assert src.crs.to_string() == water_elev.crs.to_string(), "CRS mismatch between GeoTIFF and GeoDataFrame"

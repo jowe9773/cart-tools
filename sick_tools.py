@@ -166,11 +166,9 @@ class SickTools:
 
         if wood is True:
             output_filename = out_directory + "/" + out_names[0] + "_" + out_names[1] + "_woodmap.tif"
-            print(output_filename)
 
         elif remobilization is True:
             output_filename = out_directory + "/" + out_names[0] + "_" + out_names[1] + "_remobilizationmap.tif"
-            print(output_filename)
 
         else:
             output_filename = out_directory + "/" + out_names[0] + "_" + out_names[1] + "_" + out_names[2] + '.tif'
