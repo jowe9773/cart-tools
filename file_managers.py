@@ -98,6 +98,7 @@ class FileManagers:
             if "_nowood" in filename and ".XML" in filename and "Processed" in filepath:
                 filenames["nowood_sick .XML"] = output_file
 
+
             if "_wood" in filename and ".DAT" in filename and "Processed" in filepath:
                 filenames["wood_sick .DAT"] = output_file
 
@@ -440,3 +441,40 @@ class FileManagers:
             ]
 
         return count_list
+    
+    def manage_missing_files(self, filenames, forest_den, grouped_files, time):
+        
+        if forest_den == 0.5:
+            exp_to_parse = grouped_files["20240603_exp1"]
+
+        if forest_den == 1:
+            exp_to_parse = grouped_files["20240529_exp2"]
+
+        if forest_den == 2:
+            exp_to_parse = grouped_files["20240605_exp1"]
+
+        if forest_den == 4:
+            exp_to_parse = grouped_files["20240606_exp1"]
+
+        fm = FileManagers()
+
+        replacement_files = fm.sort_files(exp_to_parse)
+
+        if time == "raw":
+            if "nowood_sick .DAT" not in filenames:
+                filenames["nowood_sick .DAT"] = replacement_files["nowood_sick .DAT"]
+
+            if "nowood_sick .XML" not in filenames:
+                filenames["nowood_sick .XML"] = replacement_files["nowood_sick .XML"]
+
+            if "nowood_massa_scan1" not in filenames:
+                filenames["nowood_massa_scan1"] = replacement_files["nowood_massa_scan1"]
+
+            if "nowood_massa_scan2" not in filenames:
+                filenames["nowood_massa_scan2"] = replacement_files["nowood_massa_scan2"]
+
+        if time == "processed":
+            if "nowood_sick .tif" not in filenames:
+                filenames["nowood_sick .tif"] = replacement_files["nowood_sick .tif"]
+
+        return filenames

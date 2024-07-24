@@ -4,16 +4,22 @@
 data from each experiment and make an excel file that holds all of the data """
 
 #import neccesary packages and modules
-from file_managers import FileManagers
-from process_exp import ProcessExperiment
-import numpy as np
 import pandas as pd
 from pprint import pprint
+from file_managers import FileManagers
+from process_exp import ProcessExperiment
 
 #instantiate:
 fm = FileManagers()
 pe = ProcessExperiment()
 summary = None
+
+#some user inputs
+root_dir = fm.load_dn("Select a data directory")
+out_dir = fm.load_dn("Select a directory to keep outputs in")
+flume_regions = fm.load_fn("Choose the flume regions shapefile")
+epsg = 32615
+offset = 0 #the default massa offset is 0mm
 
 #lets instantiate the dataframe that will be exported at the very end
 output_df = pd.DataFrame(columns = ["experiment_name", "s_dropped", "i_dropped", "l_dropped", "all_dropped",
@@ -34,23 +40,17 @@ output_df = pd.DataFrame(columns = ["experiment_name", "s_dropped", "i_dropped",
             ])
 
 
-
-#some user inputs
-root_dir = fm.load_dn("Select a data directory")
-out_dir = fm.load_dn("Select a directory to keep outputs in")
-flume_regions = fm.load_fn("Choose the flume regions shapefile")
-epsg = 32615
-offset = 0 #the default massa offset is 0mm
-
 # load files into groups 
 summary, grouped_files = fm.parse_directory(root_dir)
+
+sorted_keys = sorted(grouped_files.keys())
 
 #lets set up our experiment metadata (what type of experiment was run?)
 if summary is not None:
     experiment_deets = fm.read_exp_summary(summary)
 
 #now lets go through each experiment (each key represents one experiment)
-for key in grouped_files:
+for key in sorted_keys:
     print(" ")
     print(key)
 
@@ -64,13 +64,18 @@ for key in grouped_files:
 
     #list the flood type for the experiment
     flood_type = experiment_deets[key][0]
+    forest_den = experiment_deets[key][2]
 
     print(flood_type)
+    print(forest_den)
+
+    if forest_den == 0.5 or forest_den == 1 or forest_den == 2 or forest_den == 4:
+        filenames = fm.manage_missing_files(filenames, forest_den, grouped_files, "raw")
 
     if flood_type == "H" or flood_type == "L":
 
         #process sick and massa data
-        outs = pe.process_exp(key, filenames, out_dir, flume_regions, epsg, offset)
+        outs = pe.process_exp(key, flood_type, filenames, out_dir, flume_regions, epsg, offset, forest_den)
         
         #get the count data 
         counts = fm.extract_count_data(filenames["counts"], flood_type)
