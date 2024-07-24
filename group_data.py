@@ -15,7 +15,8 @@ pe = ProcessExperiment()
 summary = None
 
 #lets instantiate the dataframe that will be exported at the very end
-output_df = pd.DataFrame(columns = ["experiment_name", "s_dropped", "i_dropped", "l_dropped", "all_dropped",
+output_df = pd.DataFrame(columns = ["experiment_name", "flood_type", "transport_regime", "forest_stand_density",
+            "s_dropped", "i_dropped", "l_dropped", "all_dropped",
             "s_fp_injam", "i_fp_injam", "l_fp_injam", "all_fp_injam",
             "s_cm_injam", "i_cm_injam", "l_cm_injam", "all_cm_injam",
             "s_ic_injam", "i_ic_injam", "l_ic_injam", "all_ic_injam",
@@ -54,8 +55,7 @@ for key in grouped_files:
     if "20240626" in key or "20240627" in key or "20240628" in key or "20240629" in key or "20240630" in key or "20240701" in key or "20240702" in key or "20240703" in key:
         offset =  208.2
 
-
-    #pprint(grouped_files[key])
+    #now we sort the files from a particular experiment (assign filenames to a particular name that is consistent from experiment to experiment)
     filenames = fm.sort_files(grouped_files[key])
 
     #process sick and massa data
@@ -63,6 +63,8 @@ for key in grouped_files:
 
     #list the flood type for the experiment
     flood_type = experiment_deets[key][0]
+    transport_regime = experiment_deets[key][1]
+    forest_stand_density = experiment_deets[key][2]
 
     if flood_type == "H" or flood_type == "L":
 
@@ -70,8 +72,13 @@ for key in grouped_files:
         counts = fm.extract_count_data(filenames["counts"], flood_type)
 
         counts.insert(0, key)
+        counts.insert(1, flood_type)
+        counts.insert(2, transport_regime)
+        counts.insert(3, forest_stand_density)
+
         #append the count data to the output_df
-        new_row = pd.DataFrame([counts], columns= ["experiment_name", "s_dropped", "i_dropped", "l_dropped", "all_dropped",
+        new_row = pd.DataFrame([counts], columns= ["experiment_name", "flood_type", "transport_regime", "forest_stand_density",
+                "s_dropped", "i_dropped", "l_dropped", "all_dropped",
                 "s_fp_injam", "i_fp_injam", "l_fp_injam", "all_fp_injam",
                 "s_cm_injam", "i_cm_injam", "l_cm_injam", "all_cm_injam",
                 "s_ic_injam", "i_ic_injam", "l_ic_injam", "all_ic_injam",
