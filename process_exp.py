@@ -20,6 +20,18 @@ class ProcessExperiment:
 
     def process_exp(self, exp_name, experiment_type, filenames, out_dir, flume_regions, epsg, offset, forest_den):
 
+        nowood_avg_fp_elev = -9999
+        nowood_median_fp_elev = -9999 
+        nowood_avg_ch_elev = -9999
+        nowood_median_ch_elev = -9999
+        wood_avg_fp_elev = -9999
+        wood_median_fp_elev = -9999
+        wood_avg_ch_elev = -9999
+        wood_median_ch_elev = -9999
+        remobilization_avg_fp_elev = -9999
+        remobilization_median_fp_elev = -9999
+        remobilization_avg_ch_elev = -9999
+        remobilization_median_ch_elev = -9999
 
         #Now that we have established the experiment type, we have the files we need and we know what steps need to be taken
         if experiment_type is None:

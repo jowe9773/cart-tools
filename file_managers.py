@@ -338,6 +338,7 @@ class FileManagers:
     def extract_count_data(self, count_fn, flood_type):
 
         summary_df = pd.read_excel(count_fn, sheet_name = "Summary")
+        print(summary_df)
 
         #dropped counts
         s_dropped = summary_df.iat[1,2]

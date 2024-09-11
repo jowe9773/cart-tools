@@ -1,7 +1,7 @@
 #group_data.py
 
 """This file contains code that will batch process massa and sick data, then pull 
-data from each experiment and make an excel file that holds all of the data """
+data from each experiment and make an excel file that holds all of the pipdata """
 
 #import neccesary packages and modules
 import pandas as pd
@@ -22,7 +22,8 @@ epsg = 32615
 offset = 0 #the default massa offset is 0mm
 
 #lets instantiate the dataframe that will be exported at the very end
-output_df = pd.DataFrame(columns = ["experiment_name", "s_dropped", "i_dropped", "l_dropped", "all_dropped",
+output_df = pd.DataFrame(columns = ["experiment_name", "flood_type", "transport_regime", "forest_stand_density",
+                "s_dropped", "i_dropped", "l_dropped", "all_dropped",
                 "s_fp_injam", "i_fp_injam", "l_fp_injam", "all_fp_injam",
                 "s_cm_injam", "i_cm_injam", "l_cm_injam", "all_cm_injam",
                 "s_ic_injam", "i_ic_injam", "l_ic_injam", "all_ic_injam",
@@ -58,12 +59,16 @@ for key in sorted_keys:
     if "20240626" in key or "20240627" in key or "20240628" in key or "20240629" in key or "20240630" in key or "20240701" in key or "20240702" in key or "20240703" in key:
         offset =  208.2
 
+    else:
+        offset = 0
+
 
     #pprint(grouped_files[key])
     filenames = fm.sort_files(grouped_files[key])
 
     #list the flood type for the experiment
     flood_type = experiment_deets[key][0]
+    transport_regime = experiment_deets[key][1]
     forest_den = experiment_deets[key][2]
 
     print(flood_type)
@@ -71,6 +76,9 @@ for key in sorted_keys:
 
     if forest_den == 0.5 or forest_den == 1 or forest_den == 2 or forest_den == 4:
         filenames = fm.manage_missing_files(filenames, forest_den, grouped_files, "raw")
+
+    if flood_type == "A":
+         outs = pe.process_exp(key, flood_type, filenames, out_dir, flume_regions, epsg, offset, forest_den)
 
     if flood_type == "H" or flood_type == "L":
 
@@ -81,12 +89,16 @@ for key in sorted_keys:
         counts = fm.extract_count_data(filenames["counts"], flood_type)
 
         #add water depth data
-        data = outs + counts
+        data = counts + outs
 
         data.insert(0, key)
+        data.insert(1, flood_type)
+        data.insert(2, transport_regime)
+        data.insert(3, forest_den)
         
         #append the count data to the output_df
-        new_row = pd.DataFrame([data], columns= ["experiment_name", "s_dropped", "i_dropped", "l_dropped", "all_dropped",
+        new_row = pd.DataFrame([data], columns= ["experiment_name", "flood_type", "transport_regime", "forest_stand_density",
+                "s_dropped", "i_dropped", "l_dropped", "all_dropped",
                 "s_fp_injam", "i_fp_injam", "l_fp_injam", "all_fp_injam",
                 "s_cm_injam", "i_cm_injam", "l_cm_injam", "all_cm_injam",
                 "s_ic_injam", "i_ic_injam", "l_ic_injam", "all_ic_injam",
